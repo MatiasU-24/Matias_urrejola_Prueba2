@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-create-reportes
+      author: codex
+      changes:
+        - createTable:
+            tableName: reportes
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: titulo
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: descripcion
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total_reservas
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total_ingresos
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: publicado
+                  type: bit
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fecha_generacion
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tipo_reporte
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+        - insert:
+            tableName: reportes
+            columns:
+              - column: { name: titulo, value: "Reporte mensual enero" }
+              - column: { name: descripcion, value: "Resumen operativo mensual de reservas y pagos" }
+              - column: { name: total_reservas, valueNumeric: 12 }
+              - column: { name: total_ingresos, valueNumeric: 1250000.00 }
+              - column: { name: publicado, valueBoolean: true }
+              - column: { name: fecha_generacion, valueDate: "2026-01-31T10:00:00" }
+              - column: { name: tipo_reporte, value: "Mensual" }
+        - insert:
+            tableName: reportes
+            columns:
+              - column: { name: titulo, value: "Reporte semanal norte" }
+              - column: { name: descripcion, value: "Consolidado semanal por zona de operacion" }
+              - column: { name: total_reservas, valueNumeric: 7 }
+              - column: { name: total_ingresos, valueNumeric: 720000.00 }
+              - column: { name: publicado, valueBoolean: false }
+              - column: { name: fecha_generacion, valueDate: "2026-02-07T11:30:00" }
+              - column: { name: tipo_reporte, value: "Semanal" }
+        - insert:
+            tableName: reportes
+            columns:
+              - column: { name: titulo, value: "Reporte anual preliminar" }
+              - column: { name: descripcion, value: "Vista preliminar de ingresos y reservas anuales" }
+              - column: { name: total_reservas, valueNumeric: 140 }
+              - column: { name: total_ingresos, valueNumeric: 18500000.00 }
+              - column: { name: publicado, valueBoolean: true }
+              - column: { name: fecha_generacion, valueDate: "2026-03-01T09:00:00" }
+              - column: { name: tipo_reporte, value: "Anual" }
