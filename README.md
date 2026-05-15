@@ -2,6 +2,14 @@
 
 Proyecto Spring Boot basado en las instrucciones de la prueba de microservicios.
 
+## Autor
+
+- Matias Urrejola
+
+## Contexto
+
+El sistema digitaliza la operacion de una empresa de arriendo de vehiculos. La arquitectura esta separada en 7 microservicios independientes, cada uno con su propia capa controller, service, repository, DTOs, mappers, entidades JPA y configuracion de persistencia.
+
 ## Microservicios
 
 | Microservicio | Puerto | Base de datos | Entidades |
@@ -32,7 +40,7 @@ Los `application.properties` usan usuario `root` sin password. Si tu MySQL tiene
 Desde la raiz, con Maven instalado:
 
 ```bash
-mvn clean package
+mvn clean package -DskipTests
 ```
 
 Para ejecutar un microservicio:
@@ -40,6 +48,12 @@ Para ejecutar un microservicio:
 ```bash
 cd ms-clientes
 mvn spring-boot:run
+```
+
+Cada microservicio tambien puede compilarse de forma independiente entrando a su carpeta y ejecutando:
+
+```bash
+mvn clean package -DskipTests
 ```
 
 Levanta primero los servicios base si vas a probar Feign:
@@ -75,3 +89,14 @@ Endpoints de queries solicitadas:
 - `CommandLineRunner`: clientes, vehiculos, sucursales y empleados.
 - Flyway: reservas y pagos.
 - Liquibase: reportes.
+
+## Componentes implementados
+
+- Entidades JPA con relaciones `@OneToMany`, `@ManyToOne` y `@JoinColumn`.
+- DTOs de request con Bean Validation.
+- DTOs de response para no exponer relaciones completas.
+- Mappers manuales entre entidad y DTO.
+- Services con logs SLF4J, reglas de negocio y manejo de errores.
+- Controllers REST con `ResponseEntity`.
+- `GlobalExceptionHandler` para errores 404, validaciones y reglas de negocio.
+- FeignClient para validar cliente, vehiculo, reserva, pagos y consolidacion de reportes.
