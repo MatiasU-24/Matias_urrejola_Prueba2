@@ -33,11 +33,14 @@ public class Cliente {
     @Column(nullable = false)
     private LocalDate fechaRegistro;
 
+    @Column(nullable = false)
+    private String nacionalidad;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Direccion> direcciones = new ArrayList<>();
 
     public Cliente(Integer id, String nombre, String apellido, String email, String telefono,
-            Integer puntosFidelidad, boolean activo, LocalDate fechaRegistro) {
+            Integer puntosFidelidad, boolean activo, LocalDate fechaRegistro, String nacionalidad) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -46,13 +49,22 @@ public class Cliente {
         this.puntosFidelidad = puntosFidelidad;
         this.activo = activo;
         this.fechaRegistro = fechaRegistro;
+        this.nacionalidad = nacionalidad;
     }
 
     // Metodos generados sin Lombok
     public Cliente() {
     }
 
-    public Cliente(Integer id, String nombre, String apellido, String email, String telefono, Integer puntosFidelidad, boolean activo, LocalDate fechaRegistro, List<Direccion> direcciones) {
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
+    public Cliente(Integer id, String nombre, String apellido, String email, String telefono, Integer puntosFidelidad, boolean activo, LocalDate fechaRegistro, String nacionalidad, List<Direccion> direcciones) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -62,6 +74,7 @@ public class Cliente {
         this.activo = activo;
         this.fechaRegistro = fechaRegistro;
         this.direcciones = direcciones;
+        this.nacionalidad = nacionalidad;
     }
 
     public Integer getId() {

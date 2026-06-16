@@ -47,6 +47,7 @@ public class ClienteService {
             Cliente cliente = buscarEntidad(id);
             cliente.setNombre(request.getNombre());
             cliente.setApellido(request.getApellido());
+            cliente.setNacionalidad(request.getNacionalidad());
             cliente.setEmail(request.getEmail());
             cliente.setTelefono(request.getTelefono());
             cliente.setPuntosFidelidad(request.getPuntosFidelidad());

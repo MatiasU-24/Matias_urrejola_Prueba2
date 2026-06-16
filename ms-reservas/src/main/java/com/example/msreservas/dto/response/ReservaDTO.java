@@ -1,5 +1,6 @@
 package com.example.msreservas.dto.response;
 
+import com.example.msreservas.client.dto.ClienteDTO;
 import java.time.LocalDate;
 import java.math.BigDecimal;
 
@@ -13,6 +14,7 @@ public class ReservaDTO {
     private boolean activa;
     private LocalDate fechaCreacion;
     private Integer clienteId;
+    private ClienteDTO cliente;
     private Integer vehiculoId;
     private Integer estadoReservaId;
 
@@ -87,6 +89,14 @@ public class ReservaDTO {
 
     public void setClienteId(Integer clienteId) {
         this.clienteId = clienteId;
+    }
+
+    public ClienteDTO getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteDTO cliente) {
+        this.cliente = cliente;
     }
 
     public Integer getVehiculoId() {

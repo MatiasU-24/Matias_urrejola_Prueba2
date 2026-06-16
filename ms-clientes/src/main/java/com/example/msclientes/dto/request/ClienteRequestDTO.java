@@ -13,6 +13,10 @@ public class ClienteRequestDTO {
     private String apellido;
 
     @NotBlank
+    @Size(min = 2, max = 80)
+    private String nacionalidad;
+
+    @NotBlank
     @Email
     @Size(max = 120)
     private String email;
@@ -46,6 +50,14 @@ public class ClienteRequestDTO {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
     }
 
     public String getEmail() {

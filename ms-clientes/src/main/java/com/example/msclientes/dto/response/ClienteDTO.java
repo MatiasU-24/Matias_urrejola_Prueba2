@@ -6,6 +6,7 @@ public class ClienteDTO {
     private Integer id;
     private String nombre;
     private String apellido;
+    private String nacionalidad;
     private String email;
     private String telefono;
     private Integer puntosFidelidad;
@@ -13,6 +14,14 @@ public class ClienteDTO {
     private LocalDate fechaRegistro;
 
     // Metodos generados sin Lombok
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
     public Integer getId() {
         return id;
     }

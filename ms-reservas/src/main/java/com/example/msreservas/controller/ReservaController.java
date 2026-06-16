@@ -3,7 +3,6 @@ package com.example.msreservas.controller;
 import com.example.msreservas.dto.request.ReservaRequestDTO;
 import com.example.msreservas.dto.response.ReservaDTO;
 import com.example.msreservas.service.ReservaService;
-import com.example.msreservas.mapper.ReservaMapper;
 import com.example.msreservas.repository.ReservaRepository;
 import java.time.LocalDate;
 import jakarta.validation.Valid;
@@ -51,7 +50,7 @@ public class ReservaController {
 
     @GetMapping("/desde")
     public ResponseEntity<List<ReservaDTO>> reservasDesde(@RequestParam LocalDate fecha) {
-        return ResponseEntity.ok(reservaRepository.buscarReservasDesdeFecha(fecha).stream().map(ReservaMapper::toDTO).toList());
+        return ResponseEntity.ok(reservaRepository.buscarReservasDesdeFecha(fecha).stream().map(reservaService::toDTOConCliente).toList());
     }
 
 }

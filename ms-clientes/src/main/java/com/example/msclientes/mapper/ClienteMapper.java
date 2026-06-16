@@ -12,6 +12,7 @@ public class ClienteMapper {
         dto.setId(cliente.getId());
         dto.setNombre(cliente.getNombre());
         dto.setApellido(cliente.getApellido());
+        dto.setNacionalidad(cliente.getNacionalidad());
         dto.setEmail(cliente.getEmail());
         dto.setTelefono(cliente.getTelefono());
         dto.setPuntosFidelidad(cliente.getPuntosFidelidad());
@@ -24,6 +25,7 @@ public class ClienteMapper {
         Cliente cliente = new Cliente();
         cliente.setNombre(dto.getNombre());
         cliente.setApellido(dto.getApellido());
+        cliente.setNacionalidad(dto.getNacionalidad());
         cliente.setEmail(dto.getEmail());
         cliente.setTelefono(dto.getTelefono());
         cliente.setPuntosFidelidad(dto.getPuntosFidelidad());

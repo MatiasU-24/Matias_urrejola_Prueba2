@@ -10,6 +10,7 @@ import com.example.msreservas.entity.EstadoReserva;
 import com.example.msreservas.repository.EstadoReservaRepository;
 import com.example.msreservas.client.ClienteClient;
 import com.example.msreservas.client.VehiculoClient;
+import com.example.msreservas.client.dto.ClienteDTO;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +33,12 @@ public class ReservaService {
 
     public List<ReservaDTO> findAll() {
         log.info("Listando reservas");
-        return reservaRepository.findAll().stream().map(ReservaMapper::toDTO).toList();
+        return reservaRepository.findAll().stream().map(this::toDTOConCliente).toList();
     }
 
     public ReservaDTO findById(Integer id) {
         log.info("Buscando Reserva con id {}", id);
-        return ReservaMapper.toDTO(buscarEntidad(id));
+        return toDTOConCliente(buscarEntidad(id));
     }
 
     public ReservaDTO save(ReservaRequestDTO request) {
@@ -47,7 +48,7 @@ public class ReservaService {
             Reserva reserva = ReservaMapper.toEntity(request);
         EstadoReserva estadoReserva = estadoReservaRepository.findById(request.getEstadoReservaId()).orElseThrow(() -> new ResourceNotFoundException("EstadoReserva no encontrado con id " + request.getEstadoReservaId()));
         reserva.setEstadoReserva(estadoReserva);
-            return ReservaMapper.toDTO(reservaRepository.save(reserva));
+            return toDTOConCliente(reservaRepository.save(reserva));
         } catch (RuntimeException ex) {
             log.error("Error al crear Reserva", ex);
             throw ex;
@@ -70,7 +71,7 @@ public class ReservaService {
             reserva.setVehiculoId(request.getVehiculoId());
         EstadoReserva estadoReserva = estadoReservaRepository.findById(request.getEstadoReservaId()).orElseThrow(() -> new ResourceNotFoundException("EstadoReserva no encontrado con id " + request.getEstadoReservaId()));
         reserva.setEstadoReserva(estadoReserva);
-            return ReservaMapper.toDTO(reservaRepository.save(reserva));
+            return toDTOConCliente(reservaRepository.save(reserva));
         } catch (RuntimeException ex) {
             log.error("Error al actualizar Reserva", ex);
             throw ex;
@@ -84,6 +85,13 @@ public class ReservaService {
 
     private Reserva buscarEntidad(Integer id) {
         return reservaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrado con id " + id));
+    }
+
+    public ReservaDTO toDTOConCliente(Reserva reserva) {
+        ReservaDTO dto = ReservaMapper.toDTO(reserva);
+        ClienteDTO cliente = clienteClient.obtenerClientePorId(reserva.getClienteId());
+        dto.setCliente(cliente);
+        return dto;
     }
 
     private void verificarClienteYVehiculo(ReservaRequestDTO request) {

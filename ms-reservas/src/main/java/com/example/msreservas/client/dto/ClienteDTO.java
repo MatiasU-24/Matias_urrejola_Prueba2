@@ -1,11 +1,18 @@
 package com.example.msreservas.client.dto;
 
 
+import java.time.LocalDate;
+
 public class ClienteDTO {
     private Integer id;
     private String nombre;
+    private String apellido;
     private String email;
+    private String telefono;
+    private Integer puntosFidelidad;
     private boolean activo;
+    private LocalDate fechaRegistro;
+    private String nacionalidad;
 
     // Metodos generados sin Lombok
     public Integer getId() {
@@ -24,6 +31,14 @@ public class ClienteDTO {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -32,11 +47,43 @@ public class ClienteDTO {
         this.email = email;
     }
 
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public Integer getPuntosFidelidad() {
+        return puntosFidelidad;
+    }
+
+    public void setPuntosFidelidad(Integer puntosFidelidad) {
+        this.puntosFidelidad = puntosFidelidad;
+    }
+
     public boolean isActivo() {
         return activo;
     }
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
     }
 }
