@@ -1,6 +1,8 @@
 # Matias_urrejola_Prueba2
 
-Proyecto backend con microservicios Spring Boot para arriendo de vehiculos.
+Proyecto backend desarrollado con Spring Boot para un sistema de arriendo de vehiculos.
+
+El proyecto esta separado en microservicios, cada uno con su propia responsabilidad. En esta entrega se trabajo principalmente sobre clientes, vehiculos y reservas, ya que esas fueron las entidades solicitadas para la preparacion.
 
 ## Microservicios del proyecto
 
@@ -15,21 +17,22 @@ Proyecto backend con microservicios Spring Boot para arriendo de vehiculos.
 | ms-reportes | 8087 | Reporte |
 | ms-gateway | 8080 | Enrutamiento hacia los microservicios |
 
-## Checklist aplicado
+## Trabajo realizado
 
-- Arquitectura Controller, Service y Repository separada.
-- Repositories basados en JPA Repository.
-- DTOs de entrada y salida.
-- Mappers manuales Entity <-> DTO.
-- Bean Validation con `@Valid` en controllers.
-- Manejo de excepciones con `@RestControllerAdvice`.
-- Logs con SLF4J en servicios.
-- Feign Client entre reservas/clientes/vehiculos y otros flujos existentes.
-- Swagger/OpenAPI agregado a `ms-clientes`, `ms-vehiculos` y `ms-reservas`.
-- HATEOAS agregado a endpoints principales de Cliente, Direccion, Vehiculo, Categoria, Reserva y EstadoReserva.
-- Tests unitarios de Service con JUnit y Mockito para las entidades trabajadas.
-- Configuracion YAML aplicada en `ms-clientes`, `ms-vehiculos` y `ms-reservas`.
-- API Gateway agregado en `ms-gateway`, con rutas a los 7 microservicios.
+En los microservicios `ms-clientes`, `ms-vehiculos` y `ms-reservas` se aplicaron las mejoras pedidas:
+
+- Separacion por controller, service y repository.
+- Uso de entidades JPA y repositories.
+- DTOs para recibir y devolver datos.
+- Validaciones en las peticiones.
+- Manejo de errores.
+- Comunicacion entre servicios usando Feign.
+- Documentacion de endpoints con Swagger.
+- Respuestas con enlaces usando HATEOAS.
+- Pruebas unitarias con JUnit y Mockito.
+- Configuracion usando archivos `application.yml`.
+
+Tambien se agrego un gateway para centralizar las rutas hacia los microservicios.
 
 ## Ejecucion
 
@@ -53,7 +56,7 @@ java -jar ms-clientes/target/ms-clientes-0.0.1-SNAPSHOT.jar
 
 ## API Gateway
 
-El gateway corre en el puerto `8080` y enruta hacia los microservicios.
+El gateway corre en el puerto `8080`. Desde ahi se pueden probar rutas como:
 
 Ejemplos:
 
@@ -65,7 +68,7 @@ GET http://localhost:8080/api/v1/reservas
 
 ## Swagger UI
 
-Con cada servicio levantado:
+Con cada servicio levantado, Swagger se puede revisar en:
 
 ```text
 http://localhost:8081/swagger-ui/index.html
@@ -75,12 +78,10 @@ http://localhost:8083/swagger-ui/index.html
 
 ## HATEOAS
 
-Los endpoints principales de los tres modulos trabajados devuelven enlaces `_links`.
+Los endpoints principales de los tres modulos trabajados devuelven enlaces `_links`, por ejemplo en reservas:
 
 Ejemplo:
 
 ```text
 GET http://localhost:8083/api/v1/reservas
 ```
-
-La respuesta incluye enlaces `self`, `reservas`, `actualizar` y `eliminar`.
