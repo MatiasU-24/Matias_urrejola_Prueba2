@@ -9,5 +9,6 @@
     <module>ms-sucursales</module>
     <module>ms-empleados</module>
     <module>ms-reportes</module>
+    <module>ms-gateway</module>
   </modules>
 </project>
