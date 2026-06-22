@@ -67,6 +67,19 @@ class ClienteServiceTest {
         assertEquals("Chilena", resultado.getNacionalidad());
     }
 
+    @Test
+    void findByEmailRetornaCoincidencias() {
+        // Given
+        when(clienteRepository.findByEmailContainingIgnoreCase("ana")).thenReturn(List.of(cliente()));
+
+        // When
+        List<ClienteDTO> resultado = clienteService.findByEmail("ana");
+
+        // Then
+        assertEquals(1, resultado.size());
+        assertEquals("ana.lopez@mail.com", resultado.get(0).getEmail());
+    }
+
     private Cliente cliente() {
         return new Cliente(1, "Ana", "Lopez", "ana.lopez@mail.com", "912345678", 120, true, LocalDate.now(), "Chilena");
     }

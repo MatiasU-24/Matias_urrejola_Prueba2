@@ -5,8 +5,6 @@ import com.example.msclientes.dto.response.ClienteDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.example.msclientes.service.ClienteService;
-import com.example.msclientes.mapper.ClienteMapper;
-import com.example.msclientes.repository.ClienteRepository;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.hateoas.CollectionModel;
@@ -23,11 +21,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Tag(name = "Clientes", description = "CRUD y busquedas de clientes")
 public class ClienteController {
     private final ClienteService clienteService;
-    private final ClienteRepository clienteRepository;
 
-    public ClienteController(ClienteService clienteService, ClienteRepository clienteRepository) {
+    public ClienteController(ClienteService clienteService) {
         this.clienteService = clienteService;
-        this.clienteRepository = clienteRepository;
     }
 
     @GetMapping
@@ -65,8 +61,7 @@ public class ClienteController {
     @GetMapping("/buscar/email")
     @Operation(summary = "Buscar clientes por email", description = "Busca clientes cuyo email contenga el texto indicado.")
     public ResponseEntity<CollectionModel<EntityModel<ClienteDTO>>> buscarPorEmail(@RequestParam String texto) {
-        List<EntityModel<ClienteDTO>> clientes = clienteRepository.findByEmailContainingIgnoreCase(texto).stream()
-                .map(ClienteMapper::toDTO)
+        List<EntityModel<ClienteDTO>> clientes = clienteService.findByEmail(texto).stream()
                 .map(this::toModel)
                 .toList();
         return ResponseEntity.ok(CollectionModel.of(clientes, linkTo(methodOn(ClienteController.class).buscarPorEmail(texto)).withSelfRel()));

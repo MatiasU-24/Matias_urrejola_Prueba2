@@ -10,6 +10,7 @@ import com.example.msreservas.repository.EstadoReservaRepository;
 import com.example.msreservas.repository.ReservaRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,6 +52,21 @@ class ReservaServiceTest {
         // Then
         assertEquals(1, resultado.getId());
         assertEquals("Ana", resultado.getCliente().getNombre());
+    }
+
+    @Test
+    void findDesdeFechaRetornaReservasConCliente() {
+        // Given
+        LocalDate fecha = LocalDate.now();
+        when(reservaRepository.buscarReservasDesdeFecha(fecha)).thenReturn(List.of(reserva()));
+        when(clienteClient.obtenerClientePorId(1)).thenReturn(cliente());
+
+        // When
+        List<ReservaDTO> resultado = reservaService.findDesdeFecha(fecha);
+
+        // Then
+        assertEquals(1, resultado.size());
+        assertEquals("Ana", resultado.get(0).getCliente().getNombre());
     }
 
     private Reserva reserva() {

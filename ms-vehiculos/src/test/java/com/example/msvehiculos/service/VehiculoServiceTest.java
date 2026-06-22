@@ -8,6 +8,7 @@ import com.example.msvehiculos.repository.CategoriaRepository;
 import com.example.msvehiculos.repository.VehiculoRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,8 +51,26 @@ class VehiculoServiceTest {
         assertEquals(1, resultado.getCategoriaId());
     }
 
+    @Test
+    void findDisponiblesPorPrecioRetornaVehiculos() {
+        // Given
+        when(vehiculoRepository.findByDisponibleTrueAndPrecioArriendoDiarioLessThan(new BigDecimal("60000")))
+                .thenReturn(List.of(vehiculo()));
+
+        // When
+        List<VehiculoDTO> resultado = vehiculoService.findDisponiblesPorPrecio(new BigDecimal("60000"));
+
+        // Then
+        assertEquals(1, resultado.size());
+        assertEquals("ABCD12", resultado.get(0).getPatente());
+    }
+
     private Categoria categoria() {
         return new Categoria(1, "SUV", "Vehiculos amplios", new BigDecimal("54990"), 7, true, LocalDate.now());
+    }
+
+    private Vehiculo vehiculo() {
+        return new Vehiculo(5, "ABCD12", "Toyota", "Rav4", 2024, new BigDecimal("59000"), true, LocalDate.now(), categoria());
     }
 
     private VehiculoRequestDTO vehiculoRequest() {

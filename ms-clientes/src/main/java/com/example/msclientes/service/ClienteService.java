@@ -30,6 +30,13 @@ public class ClienteService {
         return ClienteMapper.toDTO(buscarEntidad(id));
     }
 
+    public List<ClienteDTO> findByEmail(String texto) {
+        log.info("Buscando clientes por email {}", texto);
+        return clienteRepository.findByEmailContainingIgnoreCase(texto).stream()
+                .map(ClienteMapper::toDTO)
+                .toList();
+    }
+
     public ClienteDTO save(ClienteRequestDTO request) {
         try {
             log.info("Creando Cliente");

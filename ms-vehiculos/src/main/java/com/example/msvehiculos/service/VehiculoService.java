@@ -8,6 +8,7 @@ import com.example.msvehiculos.mapper.VehiculoMapper;
 import com.example.msvehiculos.repository.VehiculoRepository;
 import com.example.msvehiculos.entity.Categoria;
 import com.example.msvehiculos.repository.CategoriaRepository;
+import java.math.BigDecimal;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +35,19 @@ public class VehiculoService {
         return VehiculoMapper.toDTO(buscarEntidad(id));
     }
 
+    public List<VehiculoDTO> findDisponiblesPorPrecio(BigDecimal precio) {
+        log.info("Buscando vehiculos disponibles con precio menor a {}", precio);
+        return vehiculoRepository.findByDisponibleTrueAndPrecioArriendoDiarioLessThan(precio).stream()
+                .map(VehiculoMapper::toDTO)
+                .toList();
+    }
+
     public VehiculoDTO save(VehiculoRequestDTO request) {
         try {
             log.info("Creando Vehiculo");
             Vehiculo vehiculo = VehiculoMapper.toEntity(request);
-        Categoria categoria = categoriaRepository.findById(request.getCategoriaId()).orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrado con id " + request.getCategoriaId()));
-        vehiculo.setCategoria(categoria);
+            Categoria categoria = categoriaRepository.findById(request.getCategoriaId()).orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrado con id " + request.getCategoriaId()));
+            vehiculo.setCategoria(categoria);
             return VehiculoMapper.toDTO(vehiculoRepository.save(vehiculo));
         } catch (RuntimeException ex) {
             log.error("Error al crear Vehiculo", ex);
@@ -58,8 +66,8 @@ public class VehiculoService {
             vehiculo.setPrecioArriendoDiario(request.getPrecioArriendoDiario());
             vehiculo.setDisponible(request.isDisponible());
             vehiculo.setFechaIngreso(request.getFechaIngreso());
-        Categoria categoria = categoriaRepository.findById(request.getCategoriaId()).orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrado con id " + request.getCategoriaId()));
-        vehiculo.setCategoria(categoria);
+            Categoria categoria = categoriaRepository.findById(request.getCategoriaId()).orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrado con id " + request.getCategoriaId()));
+            vehiculo.setCategoria(categoria);
             return VehiculoMapper.toDTO(vehiculoRepository.save(vehiculo));
         } catch (RuntimeException ex) {
             log.error("Error al actualizar Vehiculo", ex);

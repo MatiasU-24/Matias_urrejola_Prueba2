@@ -5,8 +5,6 @@ import com.example.msvehiculos.dto.response.VehiculoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.example.msvehiculos.service.VehiculoService;
-import com.example.msvehiculos.mapper.VehiculoMapper;
-import com.example.msvehiculos.repository.VehiculoRepository;
 import java.math.BigDecimal;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -24,11 +22,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Tag(name = "Vehiculos", description = "CRUD y busquedas de vehiculos")
 public class VehiculoController {
     private final VehiculoService vehiculoService;
-    private final VehiculoRepository vehiculoRepository;
 
-    public VehiculoController(VehiculoService vehiculoService, VehiculoRepository vehiculoRepository) {
+    public VehiculoController(VehiculoService vehiculoService) {
         this.vehiculoService = vehiculoService;
-        this.vehiculoRepository = vehiculoRepository;
     }
 
     @GetMapping
@@ -66,8 +62,7 @@ public class VehiculoController {
     @GetMapping("/disponibles/precio")
     @Operation(summary = "Buscar vehiculos disponibles por precio")
     public ResponseEntity<CollectionModel<EntityModel<VehiculoDTO>>> disponiblesPorPrecio(@RequestParam BigDecimal precio) {
-        List<EntityModel<VehiculoDTO>> vehiculos = vehiculoRepository.findByDisponibleTrueAndPrecioArriendoDiarioLessThan(precio).stream()
-                .map(VehiculoMapper::toDTO)
+        List<EntityModel<VehiculoDTO>> vehiculos = vehiculoService.findDisponiblesPorPrecio(precio).stream()
                 .map(this::toModel)
                 .toList();
         return ResponseEntity.ok(CollectionModel.of(vehiculos, linkTo(methodOn(VehiculoController.class).disponiblesPorPrecio(precio)).withSelfRel()));

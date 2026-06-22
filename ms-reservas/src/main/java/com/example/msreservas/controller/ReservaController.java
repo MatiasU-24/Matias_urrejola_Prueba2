@@ -3,7 +3,6 @@ package com.example.msreservas.controller;
 import com.example.msreservas.dto.request.ReservaRequestDTO;
 import com.example.msreservas.dto.response.ReservaDTO;
 import com.example.msreservas.service.ReservaService;
-import com.example.msreservas.repository.ReservaRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
@@ -23,11 +22,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Tag(name = "Reservas", description = "CRUD, filtros y comunicacion Feign de reservas")
 public class ReservaController {
     private final ReservaService reservaService;
-    private final ReservaRepository reservaRepository;
 
-    public ReservaController(ReservaService reservaService, ReservaRepository reservaRepository) {
+    public ReservaController(ReservaService reservaService) {
         this.reservaService = reservaService;
-        this.reservaRepository = reservaRepository;
     }
 
     @GetMapping
@@ -65,8 +62,7 @@ public class ReservaController {
     @GetMapping("/desde")
     @Operation(summary = "Buscar reservas desde fecha")
     public ResponseEntity<CollectionModel<EntityModel<ReservaDTO>>> reservasDesde(@RequestParam LocalDate fecha) {
-        List<EntityModel<ReservaDTO>> reservas = reservaRepository.buscarReservasDesdeFecha(fecha).stream()
-                .map(reservaService::toDTOConCliente)
+        List<EntityModel<ReservaDTO>> reservas = reservaService.findDesdeFecha(fecha).stream()
                 .map(this::toModel)
                 .toList();
         return ResponseEntity.ok(CollectionModel.of(reservas, linkTo(methodOn(ReservaController.class).reservasDesde(fecha)).withSelfRel()));
