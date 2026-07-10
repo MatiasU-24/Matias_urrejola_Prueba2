@@ -16,6 +16,7 @@ El proyecto esta separado en microservicios, cada uno con su propia responsabili
 | ms-empleados | 8086 | Empleado |
 | ms-reportes | 8087 | Reporte |
 | ms-gateway | 8080 | Enrutamiento hacia los microservicios |
+| ms-eureka-server | 8761 | Registro y descubrimiento de servicios |
 
 ## Trabajo realizado
 
@@ -33,6 +34,7 @@ En los microservicios `ms-clientes`, `ms-vehiculos` y `ms-reservas` se aplicaron
 - Configuracion usando archivos `application.yml`.
 
 Tambien se agrego un gateway para centralizar las rutas hacia los microservicios.
+El proyecto usa Eureka para registrar los servicios y permitir que el gateway y Feign los encuentren por nombre.
 
 ## Ejecucion
 
@@ -54,9 +56,22 @@ Para levantar un microservicio:
 java -jar ms-clientes/target/ms-clientes-0.0.1-SNAPSHOT.jar
 ```
 
+Para usar Eureka, primero se levanta:
+
+```powershell
+java -jar ms-eureka-server/target/ms-eureka-server-0.0.1-SNAPSHOT.jar
+```
+
+Luego se levantan los demas microservicios y se pueden revisar registrados en:
+
+```text
+http://localhost:8761
+```
+
 ## API Gateway
 
 El gateway corre en el puerto `8080`. Desde ahi se pueden probar rutas como:
+Las rutas usan Eureka, por eso apuntan a nombres como `ms-clientes`, `ms-vehiculos` y `ms-reservas`.
 
 Ejemplos:
 

@@ -10,5 +10,6 @@
     <module>ms-empleados</module>
     <module>ms-reportes</module>
     <module>ms-gateway</module>
+    <module>ms-eureka-server</module>
   </modules>
 </project>
