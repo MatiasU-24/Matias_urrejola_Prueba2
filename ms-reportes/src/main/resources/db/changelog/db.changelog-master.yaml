@@ -78,3 +78,23 @@ databaseChangeLog:
               - column: { name: publicado, valueBoolean: true }
               - column: { name: fecha_generacion, valueDate: "2026-03-01T09:00:00" }
               - column: { name: tipo_reporte, value: "Anual" }
+        - insert:
+            tableName: reportes
+            columns:
+              - column: { name: titulo, value: "Reporte sucursales operativas" }
+              - column: { name: descripcion, value: "Resumen de actividad por sucursales operativas" }
+              - column: { name: total_reservas, valueNumeric: 35 }
+              - column: { name: total_ingresos, valueNumeric: 4200000.00 }
+              - column: { name: publicado, valueBoolean: false }
+              - column: { name: fecha_generacion, valueDate: "2026-03-15T12:00:00" }
+              - column: { name: tipo_reporte, value: "Operativo" }
+        - insert:
+            tableName: reportes
+            columns:
+              - column: { name: titulo, value: "Reporte pagos confirmados" }
+              - column: { name: descripcion, value: "Resumen de pagos confirmados por periodo" }
+              - column: { name: total_reservas, valueNumeric: 22 }
+              - column: { name: total_ingresos, valueNumeric: 3100000.00 }
+              - column: { name: publicado, valueBoolean: true }
+              - column: { name: fecha_generacion, valueDate: "2026-04-01T08:30:00" }
+              - column: { name: tipo_reporte, value: "Pagos" }

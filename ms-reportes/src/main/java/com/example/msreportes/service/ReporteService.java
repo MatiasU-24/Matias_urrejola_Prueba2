@@ -86,7 +86,7 @@ public class ReporteService {
             Reporte reporte = new Reporte();
             reporte.setTitulo("Reporte consolidado");
             reporte.setDescripcion("Consolidado automatico de reservas y pagos");
-            reporte.setTotalReservas(reservas.size());
+            reporte.setTotalReservas(reservas.getContent().size());
             reporte.setTotalIngresos(totalIngresos);
             reporte.setPublicado(false);
             reporte.setFechaGeneracion(LocalDateTime.now());

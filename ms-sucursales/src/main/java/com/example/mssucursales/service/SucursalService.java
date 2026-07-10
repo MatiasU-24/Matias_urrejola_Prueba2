@@ -34,12 +34,17 @@ public class SucursalService {
         return SucursalMapper.toDTO(buscarEntidad(id));
     }
 
+    public List<SucursalDTO> findOperativas() {
+        log.info("Listando sucursales operativas");
+        return sucursalRepository.listarSucursalesOperativas().stream().map(SucursalMapper::toDTO).toList();
+    }
+
     public SucursalDTO save(SucursalRequestDTO request) {
         try {
             log.info("Creando Sucursal");
             Sucursal sucursal = SucursalMapper.toEntity(request);
-        Region region = regionRepository.findById(request.getRegionId()).orElseThrow(() -> new ResourceNotFoundException("Region no encontrado con id " + request.getRegionId()));
-        sucursal.setRegion(region);
+            Region region = regionRepository.findById(request.getRegionId()).orElseThrow(() -> new ResourceNotFoundException("Region no encontrado con id " + request.getRegionId()));
+            sucursal.setRegion(region);
             return SucursalMapper.toDTO(sucursalRepository.save(sucursal));
         } catch (RuntimeException ex) {
             log.error("Error al crear Sucursal", ex);
@@ -57,8 +62,8 @@ public class SucursalService {
             sucursal.setCapacidadVehiculos(request.getCapacidadVehiculos());
             sucursal.setOperativa(request.isOperativa());
             sucursal.setFechaApertura(request.getFechaApertura());
-        Region region = regionRepository.findById(request.getRegionId()).orElseThrow(() -> new ResourceNotFoundException("Region no encontrado con id " + request.getRegionId()));
-        sucursal.setRegion(region);
+            Region region = regionRepository.findById(request.getRegionId()).orElseThrow(() -> new ResourceNotFoundException("Region no encontrado con id " + request.getRegionId()));
+            sucursal.setRegion(region);
             return SucursalMapper.toDTO(sucursalRepository.save(sucursal));
         } catch (RuntimeException ex) {
             log.error("Error al actualizar Sucursal", ex);

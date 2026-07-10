@@ -36,6 +36,13 @@ En los microservicios `ms-clientes`, `ms-vehiculos` y `ms-reservas` se aplicaron
 Tambien se agrego un gateway para centralizar las rutas hacia los microservicios.
 El proyecto usa Eureka para registrar los servicios y permitir que el gateway y Feign los encuentren por nombre.
 
+Para la preparacion final tambien se trabajo en:
+
+- `ms-sucursales`: Sucursal y Region.
+- `ms-reportes`: Reporte.
+
+En esos modulos se agregaron perfiles `dev` y `test`, Swagger, HATEOAS con assemblers, manejo de errores uniforme y pruebas de controller, service y repository.
+
 ## Ejecucion
 
 Iniciar MySQL en Laragon y ejecutar desde la raiz:
@@ -48,6 +55,12 @@ Para empaquetar:
 
 ```powershell
 mvn package -DskipTests
+```
+
+Para ejecutar con un perfil:
+
+```powershell
+java -jar ms-sucursales/target/ms-sucursales-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 ```
 
 Para levantar un microservicio:
@@ -89,6 +102,8 @@ Con cada servicio levantado, Swagger se puede revisar en:
 http://localhost:8081/swagger-ui/index.html
 http://localhost:8082/swagger-ui/index.html
 http://localhost:8083/swagger-ui/index.html
+http://localhost:8085/swagger-ui/index.html
+http://localhost:8087/swagger-ui/index.html
 ```
 
 ## HATEOAS

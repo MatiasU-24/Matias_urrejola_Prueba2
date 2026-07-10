@@ -1,5 +1,6 @@
 package com.example.mssucursales.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -11,19 +12,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> manejarNoEncontrado(ResourceNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    public ResponseEntity<ErrorResponse> manejarNoEncontrado(ResourceNotFoundException ex, HttpServletRequest request) {
+        return construirRespuesta(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI(), null);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> manejarValidaciones(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> manejarValidaciones(MethodArgumentNotValidException ex, HttpServletRequest request) {
         Map<String, String> errores = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error -> errores.put(error.getField(), error.getDefaultMessage()));
-        return ResponseEntity.badRequest().body(errores);
+        return construirRespuesta(HttpStatus.BAD_REQUEST, "Datos de entrada invalidos", request.getRequestURI(), errores);
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<String> manejarEstadoInvalido(IllegalStateException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+    public ResponseEntity<ErrorResponse> manejarEstadoInvalido(IllegalStateException ex, HttpServletRequest request) {
+        return construirRespuesta(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI(), null);
+    }
+
+    private ResponseEntity<ErrorResponse> construirRespuesta(HttpStatus status, String message, String path, Map<String, String> details) {
+        return ResponseEntity.status(status).body(new ErrorResponse(status.value(), status.getReasonPhrase(), message, path, details));
     }
 }
